@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { motion } from 'framer-motion';
 import { 
+  X,
   Home, 
   User, 
   Briefcase, 
@@ -105,7 +106,7 @@ const HomeSection = () => (
       whileHover={{ scale: 1.05 }}
     >
       <img 
-        src="IMG_03227.jpeg"
+        src="/images/IMG_0327.jpeg"
         alt="Professional Profile" 
         className="w-full h-full object-cover"
       />
@@ -167,7 +168,7 @@ const HomeSection = () => (
         </motion.a>
         {/* CV */}
         <motion.a 
-          href="Haseeb New CV.pdf" 
+          href="/pdf/Haseeb New CV.pdf" 
           className="hover:text-blue-500"
           whileHover={{ scale: 1.2 }}
         >
@@ -308,9 +309,9 @@ const AboutSection = () => (
       {/* Skills */}
       <div>
         <h3 className="text-xl font-semibold mb-4">Technical Skills</h3>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 ">
           {['Python', 'SQL', 'Data Analysis', 'Data Visualization', 'Ai Tools'].map(skill => (
-            <span key={skill} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+            <span key={skill} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full hover:shadow-lg transition-all duration-300">
               {skill}
             </span>
           ))}
@@ -334,7 +335,7 @@ const EducationSection = () => (
     <div>
       <h2 className="text-3xl font-bold mb-6">Education</h2>
       <div className="space-y-6">
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
           <h3 className="text-xl font-semibold">Bachelor of Computer Applications</h3>
           <p className="text-gray-600">Yenepoya University</p>
           <p className="text-gray-500">July 2024 - Present</p>  
@@ -347,7 +348,7 @@ const EducationSection = () => (
           </ul>
         </div>
         {/* Plus two */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
           <h3 className="text-xl font-semibold">Senior Secondary</h3>
           <p className="text-gray-600">HMS Higher Secondary</p>
           <p className="text-gray-500">July 2022 - March 2024</p>  
@@ -355,7 +356,7 @@ const EducationSection = () => (
           <p className="text-gray-600">Grade: 87%</p>
         </div>
         {/* Darul Irfan */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
           <h3 className="text-xl font-semibold">Secondary</h3>
           <p className="text-gray-600">Darul Irfan Academy</p>
           <p className="text-gray-500">July 2016 - March 2022</p>  
@@ -373,7 +374,7 @@ const ExperienceSection = () => (
   <div>
     <h2 className="text-3xl font-bold mb-6">Professional Experience</h2>
     <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
         <h3 className="text-xl font-semibold">Financial Accountant</h3>
         <p className="text-gray-600">Pompano Arabian Seafood Restaurant</p>
         <p className="text-gray-500">Jun 2024 - Nov 2024 · 6 mos</p>
@@ -384,7 +385,7 @@ const ExperienceSection = () => (
         </ul>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
         <h3 className="text-xl font-semibold">Technical Manager</h3>
         <p className="text-gray-600">Riplex Influencer Marketing Agency</p>
         <p className="text-gray-500">Jun 2023 - Nov 2023 · 6 mos</p>
@@ -395,7 +396,7 @@ const ExperienceSection = () => (
         </ul>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
         <h3 className="text-xl font-semibold"> Freelance Graphic Designer</h3>
         <a 
           href="https://www.instagram.com/magictool.creative.hub/" 
@@ -415,6 +416,59 @@ const ExperienceSection = () => (
   </div>
 );
 
+// PDF opening Model
+const PDFModal = ({ isOpen, onClose, pdfUrl }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [modalAnimation, setModalAnimation] = useState('opacity-0 scale-95');
+
+  useEffect(() => {
+    if (isOpen) {
+      setModalAnimation('opacity-100 scale-100');
+    } else {
+      setModalAnimation('opacity-0 scale-95');
+    }
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+      <div 
+        className={`
+          bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-4 relative
+          transform transition-all duration-300 ease-out
+          ${modalAnimation}
+        `}
+      >
+        <div className="p-4 border-b flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">Certificate View</h2>
+          <button
+            onClick={onClose}
+            className="rounded-full p-2 hover:bg-gray-100 transition-colors duration-200"
+            aria-label="Close modal"
+          >
+            <X className="w-5 h-5 text-gray-500" />
+          </button>
+        </div>
+        
+        <div className="p-6">
+          <div className="bg-gray-50 rounded-lg overflow-hidden shadow-inner">
+            <iframe
+              src={pdfUrl}
+              className="w-full h-[70vh] min-h-[600px]"
+              title="Certificate View"
+              frameBorder="0"
+              onLoad={() => setIsLoading(false)}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+// Project Section -- Main
 const ProjectsSection = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [pdfUrl, setPdfUrl] = useState('');
@@ -429,6 +483,66 @@ const ProjectsSection = () => {
     setPdfUrl('');
   };
 
+  const certificates = [
+    {
+      title: "Data Analysis with Spreadsheets and SQL",
+      issuedBy: "Meta",
+      issueDate: "February 2025",
+      credentialId: "ZF5LOYO73PRJ",
+      credentialUrl: "https://www.coursera.org/account/accomplishments/verify/ZF5LOYO73PRJ",
+      skills: "Data Analysis, Machine Learning",
+      pdfUrl: "/pdf/DA2.pdf"
+    },
+    {
+      title: "Introduction to Data Analytics",
+      issuedBy: "Meta",
+      issueDate: "January 2025",
+      credentialId: "46A0BUNP8V8W",
+      credentialUrl: "https://www.coursera.org/account/accomplishments/verify/46A0BUNP8V8W",
+      skills: "Data Analysis",
+      pdfUrl: "/pdf/DA1.pdf"
+    },
+    {
+      title: "Introduction to Data Analysis using Microsoft Excel",
+      issuedBy: "Coursera Project Network",
+      issueDate: "August 2024",
+      credentialId: "SRYB8Q35SLZ2",
+      credentialUrl: "https://www.coursera.org/account/accomplishments/verify/SRYB8Q35SLZ2",
+      skills: "Microsoft Excel",
+      pdfUrl: "/pdf/EX1.pdf"
+    },
+    {
+      title: "Web Development With HTML",
+      issuedBy: "Edapt",
+      issueDate: "June 2022",
+      credentialId: "EDPT1655911527629M",
+      skills: "HTML, Cascading Style Sheets (CSS)",
+      pdfUrl: "/pdf/HTML.pdf"
+    }
+  ];
+
+  const projects = [
+    {
+      title: "Project 1",
+      description: "Brief project description, technologies used",
+      projectUrl: "#",
+      githubUrl: "#"
+    },
+    {
+      title: "Project 2",
+      description: "Brief project description, technologies used",
+      projectUrl: "#",
+      githubUrl: "#"
+    },
+    {
+      title: "Project 3",
+      description: "Brief project description, technologies used",
+      projectUrl: "#",
+      githubUrl: "#"
+    }
+  ];
+
+
   return (
     <div>
       <h2 className="text-3xl font-bold mb-6">Courses & Projects</h2>
@@ -436,118 +550,58 @@ const ProjectsSection = () => {
       {/* Courses Section */}
       <div className="mb-8">  
         <h3 className="text-2xl font-semibold mb-4">Relevant Courses</h3>
+
         <div className="grid md:grid-cols-2 gap-6">
-          {/* Certificate 1 */}
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-            <h4 className="text-xl font-semibold">Data Analysis with Spreadsheets and SQL</h4>
-            <p className="text-gray-600">Issued By: Meta</p>
-            <p className="text-gray-600">Issue Date: February 2025</p>
-            <p className="text-gray-600">Credential ID: ZF5LOYO73PRJ</p>
-            <p className="text-gray-600">
-              Credential URL: <a href="https://www.coursera.org/account/accomplishments/verify/ZF5LOYO73PRJ" className="text-blue-600 hover:underline">View</a>
-            </p>
-            <p className="text-gray-600">Skills Gained: Data Analysis, Machine Learning</p>
-            <div className="mt-4">
-              <button className="text-blue-600 hover:underline" onClick={() => openModal('DA2.pdf')}>
-                View Certificate PDF
-              </button>
+          {certificates.map((cert, index) => (
+            <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+              <h4 className="text-xl font-semibold">{cert.title}</h4>
+              <p className="text-gray-600">Issued By: {cert.issuedBy}</p>
+              <p className="text-gray-600">Issue Date: {cert.issueDate}</p>
+              <p className="text-gray-600">Credential ID: {cert.credentialId}</p>
+              {cert.credentialUrl && (
+                <p className="text-gray-600">
+                  Credential URL: <a href={cert.credentialUrl} className="text-blue-600 hover:underline">View</a>
+                </p>
+              )}
+              <p className="text-gray-600">Skills Gained: {cert.skills}</p>
+              <div className="mt-4">
+                <button 
+                  className="bg-blue-600 text-white px-3 py-1.5 rounded-full shadow-md border-3 border-blue-600 transition-all 
+                    hover:bg-transparent hover:text-blue-600"
+                  onClick={() => openModal(cert.pdfUrl)}
+                >
+                  View Certificate
+                </button>
+              </div>
             </div>
-          </div>
-
-          {/* Certificate 2 */}
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-            <h4 className="text-xl font-semibold">Introduction to Data Analytics</h4>
-            <p className="text-gray-600">Issued By: Meta</p>
-            <p className="text-gray-600">Issue Date: January 2025</p>
-            <p className="text-gray-600">Credential ID: 46A0BUNP8V8W</p>
-            <p className="text-gray-600">
-              Credential URL: <a href="https://www.coursera.org/account/accomplishments/verify/46A0BUNP8V8W" className="text-blue-600 hover:underline">View</a>
-            </p>
-            <p className="text-gray-600">Skills Gained: Data Analysis</p>
-            <div className="mt-4">
-              <button className="text-blue-600 hover:underline" onClick={() => openModal('DA1.pdf')}>
-                View Certificate PDF
-              </button>
-            </div>
-          </div>
-
-          {/* Certificate 3 */}
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-            <h4 className="text-xl font-semibold">Introduction to Data Analysis using Microsoft Excel</h4>
-            <p className="text-gray-600">Issued By: Coursera Project Network</p>
-            <p className="text-gray-600">Issue Date: August 2024</p>
-            <p className="text-gray-600">Credential ID: SRYB8Q35SLZ2</p>
-            <p className="text-gray-600">
-              Credential URL: <a href="https://www.coursera.org/account/accomplishments/verify/SRYB8Q35SLZ2" className="text-blue-600 hover:underline">View</a>
-            </p>
-            <p className="text-gray-600">Skills Gained: Microsoft Excel</p>
-            <div className="mt-4">
-              <button className="text-blue-600 hover:underline" onClick={() => openModal('EX1.pdf')}>
-                View Certificate PDF
-              </button>
-            </div>
-          </div>
-
-          {/* Certificate 4 */}
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-            <h4 className="text-xl font-semibold">Web Development With HTML</h4>
-            <p className="text-gray-600">Issued By: Edapt</p>
-            <p className="text-gray-600">Issue Date: June 2022</p>
-            <p className="text-gray-600">Credential ID: EDPT1655911527629M</p>
-            {/* <p className="text-gray-600">Credential URL: <a href="#" className="text-blue-600 hover:underline">View</a></p> */}
-            <p className="text-gray-600">Skills Gained: HTML, Cascading Style Sheets (CSS)</p>
-
-            {/* Add a Button to Upload PDF */}
-            <div className="mt-4">
-              <button
-                className="text-blue-600 hover:underline"
-                onClick={() => openModal('Untitled-1.png')}
-              >
-                View Certificate PDF
-              </button>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* Modal for PDF */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg max-w-3xl w-full relative">
-            <button
-              onClick={closeModal}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-            >
-              X
-            </button>
-            <iframe
-              src={pdfUrl}
-              width="100%"
-              height="600px"
-              title="Certificate"
-              frameBorder="0"
-            ></iframe>
-          </div>
-        </div>
-      )}
+      {/* PDF Modal */}
+      <PDFModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        pdfUrl={pdfUrl}
+      />
 
       {/* Projects Section */}
       <div>
         <h3 className="text-2xl font-semibold mb-4">Projects</h3>
         <div className="grid md:grid-cols-2 gap-6">
-          {[1, 2, 3].map((project) => (
-            <div key={project} className="bg-white p-6 rounded-lg shadow-md">
-              <h4 className="text-xl font-semibold">Project {project} Title</h4>
-              <p>Brief project description, technologies used</p>
+          {projects.map((project, index) => (
+            <div key={index} className="bg-white p-6 rounded-lg shadow-md">
+              <h4 className="text-xl font-semibold">{project.title}</h4>
+              <p>{project.description}</p>
               <div className="mt-4">
                 <a
-                  href="#"
+                  href={project.projectUrl}
                   className="text-blue-600 hover:underline mr-4"
                 >
                   View Project
                 </a>
                 <a
-                  href="#"
+                  href={project.githubUrl}
                   className="text-blue-600 hover:underline"
                 >
                   GitHub Repo
